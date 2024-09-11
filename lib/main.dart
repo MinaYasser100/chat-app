@@ -1,3 +1,4 @@
+import 'package:chat_app/features/login/presentation/views/login_view.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -15,6 +16,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
+      home: const LoginView(),
     );
   }
 }
