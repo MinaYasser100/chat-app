@@ -1,5 +1,7 @@
-import 'package:chat_app/features/splash/presentation/views/splash_view.dart';
+import 'package:chat_app/core/constant/color/app_colors.dart';
+import 'package:chat_app/core/helper/pages/get_pages.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 void main() {
   runApp(const MyApp());
@@ -10,15 +12,16 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return GetMaterialApp(
       locale: const Locale('ar'),
       theme: ThemeData(
         scaffoldBackgroundColor: Colors.white,
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        colorScheme: ColorScheme.fromSeed(seedColor: AppColors.primaryColor),
         useMaterial3: true,
       ),
       debugShowCheckedModeBanner: false,
-      home: const SplashView(),
+      initialRoute: GetPages.kSplashView,
+      getPages: GetPages.getPages,
     );
   }
 }
