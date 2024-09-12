@@ -21,38 +21,36 @@ class _LoginBodyViewState extends State<LoginBodyView> {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(20.0),
-      child: Column(
-        children: [
-          const LoginBodySectionOne(),
-          CustomTextFormField(
-            textFieldModel: TextFieldModel(
-              periprefixIcon: Icons.email,
-              hintText: 'البريد الالكتروني',
-              controller: eamilController,
+      child: SingleChildScrollView(
+        child: Column(
+          children: [
+            const LoginBodySectionOne(),
+            CustomTextFormField(
+              textFieldModel: TextFieldModel(
+                periprefixIcon: Icons.email,
+                hintText: 'البريد الالكتروني',
+                controller: eamilController,
+              ),
             ),
-          ),
-          const SizedBox(
-            height: 10,
-          ),
-          CustomTextFormField(
-            textFieldModel: TextFieldModel(
-              periprefixIcon: Icons.lock,
-              hintText: 'كلمة المرور',
-              controller: passwordController,
+            const SizedBox(
+              height: 10,
             ),
-          ),
-          const SizedBox(
-            height: 10,
-          ),
-          const LoginBodyNoAccount(),
-          const SizedBox(
-            height: 30,
-          ),
-          CustomButton(
-            text: 'تسجيل الان',
-            onPressed: () {},
-          )
-        ],
+            CustomTextFormField(
+              textFieldModel: TextFieldModel(
+                periprefixIcon: Icons.lock,
+                hintText: 'كلمة المرور',
+                controller: passwordController,
+              ),
+              obscureText: true,
+              suffixIcon: Icons.visibility_off_outlined,
+            ),
+            const LoginBodyNoAccount(),
+            CustomButton(
+              text: 'تسجيل الان',
+              onPressed: () {},
+            )
+          ],
+        ),
       ),
     );
   }
