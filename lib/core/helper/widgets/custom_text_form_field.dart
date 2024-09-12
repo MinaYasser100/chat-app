@@ -17,6 +17,7 @@ class CustomTextFormField extends StatelessWidget {
     return TextFormField(
       controller: textFieldModel.controller,
       obscureText: obscureText,
+      validator: textFieldModel.validator,
       decoration: InputDecoration(
         prefixIcon: Icon(
           textFieldModel.periprefixIcon,
