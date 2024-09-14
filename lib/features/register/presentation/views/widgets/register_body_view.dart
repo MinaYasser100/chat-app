@@ -21,6 +21,15 @@ class _RegisterBodyViewState extends State<RegisterBodyView> {
   TextEditingController confirmPasswordController = TextEditingController();
   GlobalKey<FormState> registerkey = GlobalKey<FormState>();
   @override
+  void dispose() {
+    nameController.dispose();
+    emailController.dispose();
+    passwordController.dispose();
+    confirmPasswordController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       child: SizedBox(
@@ -75,8 +84,7 @@ class _RegisterBodyViewState extends State<RegisterBodyView> {
                       return null;
                     },
                   ),
-                  obscureText: true,
-                  suffixIcon: Icons.visibility_off_outlined,
+                  isPassword: true,
                 ),
                 const SizedBox(
                   height: 10,
@@ -94,8 +102,7 @@ class _RegisterBodyViewState extends State<RegisterBodyView> {
                       return null;
                     },
                   ),
-                  obscureText: true,
-                  suffixIcon: Icons.visibility_off_outlined,
+                  isPassword: true,
                 ),
                 const SizedBox(
                   height: 30,

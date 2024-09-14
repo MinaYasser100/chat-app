@@ -51,8 +51,7 @@ class _LoginBodyViewState extends State<LoginBodyView> {
                     return null;
                   },
                 ),
-                obscureText: true,
-                suffixIcon: Icons.visibility_off_outlined,
+                isPassword: true,
               ),
               const LoginBodyNoAccount(),
               CustomButton(
