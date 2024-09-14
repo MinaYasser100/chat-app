@@ -5,4 +5,4 @@ sealed class RegisterState {}
 
 final class RegisterInitial extends RegisterState {}
 
-final class RegisterChangeVisiablate extends RegisterState {}
+final class RegisterCchangeRegisterAutovalidateMode extends RegisterState {}
