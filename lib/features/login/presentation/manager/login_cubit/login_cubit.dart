@@ -5,4 +5,10 @@ part 'login_state.dart';
 
 class LoginCubit extends Cubit<LoginState> {
   LoginCubit() : super(LoginInitial());
+
+  AutovalidateMode autovalidateMode = AutovalidateMode.disabled;
+  changeLoginAutovalidateMode() {
+    autovalidateMode = AutovalidateMode.always;
+    emit(LoginChangeLoginAutovalidateMode());
+  }
 }
