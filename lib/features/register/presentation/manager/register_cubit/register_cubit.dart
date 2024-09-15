@@ -1,6 +1,9 @@
 import 'dart:io';
 
+import 'package:chat_app/core/model/user_model.dart';
+import 'package:chat_app/features/register/data/model/register_user_data.dart';
 import 'package:chat_app/features/register/data/register_repo/register_repo.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -49,5 +52,21 @@ class RegisterCubit extends Cubit<RegisterState> {
     } catch (error) {
       emit(RegisterCubitImageUploadingFailure());
     }
+  }
+
+  Future<void> registerUser(RegisterUserData userData) async {
+    UserCredential userCredential = await registerRepo.registerUser(
+      email: userData.email,
+      password: userData.password,
+    );
+    await registerRepo.putUserInformationInFirebase(
+      userModel: UserModel(
+        name: userData.name,
+        email: userData.email,
+        image: imageSelected ??
+            'https://img.freepik.com/premium-vector/young-man-blue-jacket-is-holding-phone-man-blue-hoodie-is-looking-his-phone_1120557-36228.jpg?w=1060',
+        userId: userCredential.user!.uid,
+      ),
+    );
   }
 }
