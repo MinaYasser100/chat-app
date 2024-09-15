@@ -1,6 +1,7 @@
 import 'package:chat_app/core/constant/color/app_colors.dart';
 import 'package:chat_app/core/helper/pages/get_pages.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
@@ -28,6 +29,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       initialRoute: GetPages.kSplashView,
       getPages: GetPages.getPages,
+      builder: EasyLoading.init(),
     );
   }
 }
