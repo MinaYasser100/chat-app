@@ -11,4 +11,8 @@ abstract class RegisterRepo {
   });
   Future<UserCredential> registerUser(
       {required String email, required String password});
+  Future<void> sendEmailVerificationLinkToEmail({
+    required String email,
+    required UserCredential userCredential,
+  });
 }

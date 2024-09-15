@@ -12,8 +12,8 @@ import 'package:image_picker/image_picker.dart';
 part 'register_state.dart';
 
 class RegisterCubit extends Cubit<RegisterState> {
-  RegisterCubit(this.registerRepo) : super(RegisterInitial());
-  final RegisterRepo registerRepo;
+  RegisterCubit(this._registerRepo) : super(RegisterInitial());
+  final RegisterRepo _registerRepo;
   AutovalidateMode autovalidateMode = AutovalidateMode.disabled;
   changeRegisterAutovalidateMode() {
     autovalidateMode = AutovalidateMode.always;
@@ -21,21 +21,21 @@ class RegisterCubit extends Cubit<RegisterState> {
   }
 
   String? imageSelected;
-  File? profileImage;
-  var picker = ImagePicker();
+  File? _profileImage;
+  final _picker = ImagePicker();
   Future<void> getProfileImage() async {
     final XFile? pickedFile =
-        await picker.pickImage(source: ImageSource.gallery);
+        await _picker.pickImage(source: ImageSource.gallery);
     if (pickedFile != null) {
-      profileImage = File(pickedFile.path);
-      uploadImage(profileImage);
+      _profileImage = File(pickedFile.path);
+      await _uploadImage(_profileImage);
       emit(RegisterCubitPickProfileImageSuccess());
     } else {
       emit(RegisterCubitPickProfileImageFailure());
     }
   }
 
-  Future<void> uploadImage(File? image) async {
+  Future<void> _uploadImage(File? image) async {
     if (image == null) {
       // No image selected
       return;
@@ -44,7 +44,7 @@ class RegisterCubit extends Cubit<RegisterState> {
 
     try {
       Reference storageReference =
-          await registerRepo.uploadImageOnFirebase(image);
+          await _registerRepo.uploadImageOnFirebase(image);
 
       String downloadURL = await storageReference.getDownloadURL();
       imageSelected = downloadURL;
@@ -55,18 +55,28 @@ class RegisterCubit extends Cubit<RegisterState> {
   }
 
   Future<void> registerUser(RegisterUserData userData) async {
-    UserCredential userCredential = await registerRepo.registerUser(
-      email: userData.email,
-      password: userData.password,
-    );
-    await registerRepo.putUserInformationInFirebase(
-      userModel: UserModel(
-        name: userData.name,
+    emit(RegisterCubitRegisterUserDataLoading());
+    try {
+      UserCredential userCredential = await _registerRepo.registerUser(
         email: userData.email,
-        image: imageSelected ??
-            'https://img.freepik.com/premium-vector/young-man-blue-jacket-is-holding-phone-man-blue-hoodie-is-looking-his-phone_1120557-36228.jpg?w=1060',
-        userId: userCredential.user!.uid,
-      ),
-    );
+        password: userData.password,
+      );
+      await _registerRepo.putUserInformationInFirebase(
+        userModel: UserModel(
+          name: userData.name,
+          email: userData.email,
+          image: imageSelected ??
+              'https://img.freepik.com/premium-vector/young-man-blue-jacket-is-holding-phone-man-blue-hoodie-is-looking-his-phone_1120557-36228.jpg?w=1060',
+          userId: userCredential.user!.uid,
+        ),
+      );
+      await _registerRepo.sendEmailVerificationLinkToEmail(
+        email: userData.email,
+        userCredential: userCredential,
+      );
+      emit(RegisterCubitRegisterUserDataSuccess());
+    } catch (e) {
+      emit(RegisterCubitRegisterUserDataFailure());
+    }
   }
 }

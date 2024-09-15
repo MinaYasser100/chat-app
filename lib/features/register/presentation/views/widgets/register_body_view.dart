@@ -1,10 +1,15 @@
+import 'package:chat_app/core/helper/func/custom_snackbar_fun.dart';
 import 'package:chat_app/core/helper/model/text_field_model.dart';
+import 'package:chat_app/core/helper/pages/get_pages.dart';
 import 'package:chat_app/core/helper/validation/email_validator.dart';
 import 'package:chat_app/core/helper/widgets/custom_button.dart';
 import 'package:chat_app/core/helper/widgets/custom_text_form_field.dart';
+import 'package:chat_app/features/register/data/model/register_user_data.dart';
 import 'package:chat_app/features/register/presentation/manager/register_cubit/register_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:get/get.dart';
 
 import '../func/register_back_to_login.dart';
 import 'register_user_image.dart';
@@ -38,7 +43,31 @@ class _RegisterBodyViewState extends State<RegisterBodyView> {
         width: double.infinity,
         child: Padding(
           padding: const EdgeInsets.all(20.0),
-          child: BlocBuilder<RegisterCubit, RegisterState>(
+          child: BlocConsumer<RegisterCubit, RegisterState>(
+            listener: (context, state) {
+              if (state is RegisterCubitRegisterUserDataLoading) {
+                EasyLoading.show(
+                  status: 'جاري التسجيل...',
+                );
+              }
+              if (state is RegisterCubitRegisterUserDataSuccess) {
+                EasyLoading.dismiss();
+                customSnackBar(
+                  subTitle: 'تم تسجيل بيناتك بنجاح',
+                  text: 'حساب جديد',
+                );
+                context.read<RegisterCubit>().imageSelected = null;
+                Get.offNamed(GetPages.kLoginView);
+              }
+              if (state is RegisterCubitRegisterUserDataFailure) {
+                EasyLoading.dismiss();
+                customSnackBar(
+                  subTitle: 'فشلت عملية تسجيل بيناتك',
+                  text: 'حساب جديد',
+                  color: Colors.red,
+                );
+              }
+            },
             builder: (context, state) {
               return Form(
                 key: registerkey,
@@ -117,6 +146,13 @@ class _RegisterBodyViewState extends State<RegisterBodyView> {
                       text: 'أنشاء حساب',
                       onPressed: () {
                         if (registerkey.currentState!.validate()) {
+                          context.read<RegisterCubit>().registerUser(
+                                RegisterUserData(
+                                  name: nameController.text,
+                                  email: emailController.text,
+                                  password: passwordController.text,
+                                ),
+                              );
                         } else {
                           context
                               .read<RegisterCubit>()

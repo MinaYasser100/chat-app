@@ -1,9 +1,9 @@
 import 'package:chat_app/core/constant/color/app_colors.dart';
+import 'package:chat_app/core/helper/func/custom_snackbar_fun.dart';
 import 'package:chat_app/features/register/presentation/manager/register_cubit/register_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
-import 'package:get/get.dart';
 
 class RegisterUserImage extends StatelessWidget {
   const RegisterUserImage({
@@ -21,17 +21,7 @@ class RegisterUserImage extends StatelessWidget {
         }
         if (state is RegisterCubitPickProfileImageSuccess) {
           EasyLoading.dismiss();
-          Get.showSnackbar(
-            const GetSnackBar(
-              backgroundColor: AppColors.primaryColor,
-              message: 'تم رفع الصورة بنجاح',
-              title: 'نجحت',
-              icon: Icon(Icons.check_circle_outline_rounded),
-              borderRadius: BorderSide.strokeAlignCenter,
-              padding: EdgeInsets.all(20),
-              snackPosition: SnackPosition.TOP,
-            ),
-          );
+          customSnackBar(subTitle: 'تم رفع الصورة بنجاح', text: 'نجحت');
         }
       },
       builder: (context, state) {
