@@ -67,7 +67,7 @@ void errorHandler({required Exception error, BuildContext? context}) {
     );
   } else {
     EasyLoading.showError(message.tr);
-    Future.delayed(const Duration(seconds: 4), () {
+    Future.delayed(const Duration(seconds: 7), () {
       EasyLoading.dismiss();
     });
   }

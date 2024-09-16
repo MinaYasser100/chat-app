@@ -1,9 +1,12 @@
 import 'package:chat_app/core/constant/color/app_colors.dart';
+import 'package:chat_app/core/constant/title/titles.dart';
 import 'package:chat_app/core/helper/pages/get_pages.dart';
+import 'package:chat_app/core/model/user_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'firebase_options.dart';
 
 void main() async {
@@ -11,6 +14,9 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+  await Hive.initFlutter();
+  Hive.registerAdapter(UserModelAdapter());
+  await Hive.openBox<UserModel>(Titles.userModelHive);
   runApp(const MyApp());
 }
 
