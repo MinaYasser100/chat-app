@@ -1,7 +1,6 @@
 import 'dart:io';
 
 import 'package:chat_app/core/constant/title/titles.dart';
-import 'package:chat_app/core/helper/func/custom_snackbar_fun.dart';
 import 'package:chat_app/core/model/user_model.dart';
 import 'package:chat_app/features/register/data/register_repo/register_repo.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -40,20 +39,5 @@ class RegisterRepoImplement implements RegisterRepo {
     UserCredential userCredential = await FirebaseAuth.instance
         .createUserWithEmailAndPassword(email: email, password: password);
     return userCredential;
-  }
-
-  @override
-  Future<void> sendEmailVerificationLinkToEmail({
-    required String email,
-    required UserCredential userCredential,
-  }) async {
-    try {
-      await userCredential.user!.sendEmailVerification();
-    } on FirebaseAuthException catch (e) {
-      if (e.code == 'user-not-found') {
-        // show snakbar user not found
-        customSnackBar(subTitle: 'هذا الايميل ليس موجود', text: 'حساب جديد');
-      }
-    }
   }
 }

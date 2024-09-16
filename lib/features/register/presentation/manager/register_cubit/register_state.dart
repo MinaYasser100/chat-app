@@ -22,3 +22,7 @@ final class RegisterCubitRegisterUserDataLoading extends RegisterState {}
 final class RegisterCubitRegisterUserDataSuccess extends RegisterState {}
 
 final class RegisterCubitRegisterUserDataFailure extends RegisterState {}
+
+final class RegisterCubitEmailVerifiedSuccess extends RegisterState {}
+
+final class RegisterCubitEmailVerificationSent extends RegisterState {}
