@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:chat_app/core/error/error_handler.dart';
 import 'package:chat_app/core/helper/func/custom_snackbar_fun.dart';
 import 'package:chat_app/core/helper/pages/get_pages.dart';
 import 'package:chat_app/core/model/user_model.dart';
@@ -58,6 +59,11 @@ class RegisterCubit extends Cubit<RegisterState> {
       emit(RegisterCubitImageUploadingSuccess());
     } catch (error) {
       emit(RegisterCubitImageUploadingFailure());
+      customSnackBar(
+        subTitle: 'حدث خطاء اثناء تحميل الصوره',
+        text: 'خطاء',
+        color: Colors.red,
+      );
     }
   }
 
@@ -87,8 +93,9 @@ class RegisterCubit extends Cubit<RegisterState> {
       );
       EasyLoading.dismiss();
       emit(RegisterCubitRegisterUserDataSuccess());
-    } catch (e) {
+    } on Exception catch (e) {
       EasyLoading.dismiss();
+      errorHandler(error: e);
       emit(RegisterCubitRegisterUserDataFailure());
     }
   }
@@ -129,12 +136,8 @@ class RegisterCubit extends Cubit<RegisterState> {
           emit(RegisterCubitEmailVerifiedSuccess());
           break;
         }
-      } catch (e) {
-        customSnackBar(
-          subTitle: 'حدث خطاء عند تاكيد الايميل',
-          text: 'تاكيد الايميل',
-          color: Colors.red,
-        );
+      } on Exception catch (e) {
+        errorHandler(error: e);
       }
       await Future.delayed(const Duration(seconds: 10));
     }

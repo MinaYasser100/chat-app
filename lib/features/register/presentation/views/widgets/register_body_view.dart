@@ -54,6 +54,11 @@ class _RegisterBodyViewState extends State<RegisterBodyView> {
                 context.read<RegisterCubit>().imageSelected = null;
               }
               if (state is RegisterCubitRegisterUserDataFailure) {
+                nameController.clear();
+                emailController.clear();
+                passwordController.clear();
+                confirmPasswordController.clear();
+                context.read<RegisterCubit>().imageSelected = null;
                 customSnackBar(
                   subTitle: 'فشلت عملية تسجيل بيناتك',
                   text: 'حساب جديد',
