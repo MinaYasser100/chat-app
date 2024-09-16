@@ -6,3 +6,9 @@ sealed class LoginState {}
 final class LoginInitial extends LoginState {}
 
 final class LoginChangeLoginAutovalidateMode extends LoginState {}
+
+final class LoginCubitLoginUserLoading extends LoginState {}
+
+final class LoginCubitLoginUserSuccess extends LoginState {}
+
+final class LoginCubitLoginUserFailure extends LoginState {}
