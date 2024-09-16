@@ -9,6 +9,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -64,6 +65,9 @@ class RegisterCubit extends Cubit<RegisterState> {
   Future<void> registerUser(RegisterUserData userData) async {
     emit(RegisterCubitRegisterUserDataLoading());
     try {
+      EasyLoading.show(
+        status: 'جاري التسجيل...',
+      );
       UserCredential userCredential = await _registerRepo.registerUser(
         email: userData.email,
         password: userData.password,
@@ -81,8 +85,10 @@ class RegisterCubit extends Cubit<RegisterState> {
         email: userData.email.trim(),
         userCredential: userCredential,
       );
+      EasyLoading.dismiss();
       emit(RegisterCubitRegisterUserDataSuccess());
     } catch (e) {
+      EasyLoading.dismiss();
       emit(RegisterCubitRegisterUserDataFailure());
     }
   }
@@ -114,25 +120,22 @@ class RegisterCubit extends Cubit<RegisterState> {
         await userCredential.user!.reload(); // Reload user to get updated info
         isVerified = FirebaseAuth.instance.currentUser!.emailVerified;
 
-        print("Email verification status: $isVerified");
-
         if (isVerified) {
-          emit(RegisterCubitEmailVerifiedSuccess());
-
           customSnackBar(
             subTitle: 'تم تسجيل بيناتك بنجاح',
             text: 'حساب جديد',
           );
-
-          imageSelected = null;
           Get.offNamed(GetPages.kLoginView); // Navigate to login page
+          emit(RegisterCubitEmailVerifiedSuccess());
           break;
         }
       } catch (e) {
-        print("Error checking email verification: $e");
+        customSnackBar(
+          subTitle: 'حدث خطاء عند تاكيد الايميل',
+          text: 'تاكيد الايميل',
+          color: Colors.red,
+        );
       }
-
-      // Polling every 10 seconds
       await Future.delayed(const Duration(seconds: 10));
     }
   }

@@ -7,7 +7,6 @@ import 'package:chat_app/features/register/data/model/register_user_data.dart';
 import 'package:chat_app/features/register/presentation/manager/register_cubit/register_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_easyloading/flutter_easyloading.dart';
 
 import '../func/register_back_to_login.dart';
 import 'register_user_image.dart';
@@ -43,20 +42,18 @@ class _RegisterBodyViewState extends State<RegisterBodyView> {
           padding: const EdgeInsets.all(20.0),
           child: BlocConsumer<RegisterCubit, RegisterState>(
             listener: (context, state) {
-              if (state is RegisterCubitRegisterUserDataLoading) {
-                EasyLoading.show(
-                  status: 'جاري التسجيل...',
-                );
-              }
               if (state is RegisterCubitEmailVerificationSent) {
-                EasyLoading.dismiss();
                 customSnackBar(
                   subTitle: 'قوم بتاكيد الايميل لاكمال البيانات',
                   text: 'حساب جديد',
                 );
+                nameController.clear();
+                emailController.clear();
+                passwordController.clear();
+                confirmPasswordController.clear();
+                context.read<RegisterCubit>().imageSelected = null;
               }
               if (state is RegisterCubitRegisterUserDataFailure) {
-                EasyLoading.dismiss();
                 customSnackBar(
                   subTitle: 'فشلت عملية تسجيل بيناتك',
                   text: 'حساب جديد',
