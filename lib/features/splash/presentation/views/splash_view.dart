@@ -1,4 +1,6 @@
 import 'package:chat_app/core/constant/color/app_colors.dart';
+import 'package:chat_app/core/helper/hive/hive_helper.dart';
+import 'package:chat_app/features/home/presentation/views/home_view.dart';
 import 'package:chat_app/features/login/presentation/views/login_view.dart';
 import 'package:flutter/material.dart';
 
@@ -18,7 +20,8 @@ class _SplashViewState extends State<SplashView> {
       Navigator.pushAndRemoveUntil(
         context,
         MaterialPageRoute(
-          builder: (context) => const LoginView(),
+          builder: (context) =>
+              HiveHelper.getUserLogin() ? const HomeView() : const LoginView(),
         ),
         (route) => false,
       );

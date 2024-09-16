@@ -30,4 +30,10 @@ class HiveHelper {
     var box = Hive.box<bool>(Titles.checkHive);
     await box.put(Titles.loginCheckHive, true);
   }
+
+  static bool getUserLogin() {
+    var box = Hive.box<bool>(Titles.checkHive);
+    bool check = box.get(Titles.loginCheckHive, defaultValue: false) ?? false;
+    return check;
+  }
 }
