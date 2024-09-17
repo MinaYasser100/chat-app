@@ -21,4 +21,7 @@ class Styles {
     fontSize: 18,
     color: Colors.grey,
   );
+  static const TextStyle textStyle16Black = TextStyle(
+    fontSize: 16,
+  );
 }

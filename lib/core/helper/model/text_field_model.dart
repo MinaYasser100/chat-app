@@ -9,6 +9,6 @@ class TextFieldModel {
     required this.periprefixIcon,
     required this.hintText,
     required this.controller,
-    required this.validator,
+    this.validator,
   });
 }
