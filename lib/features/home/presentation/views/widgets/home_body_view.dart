@@ -31,6 +31,7 @@ class _HomeBodyViewState extends State<HomeBodyView> {
           ),
         ),
         Container(
+          clipBehavior: Clip.antiAliasWithSaveLayer,
           padding:
               const EdgeInsets.only(top: 12, right: 10, left: 10, bottom: 20),
           decoration: BoxDecoration(
