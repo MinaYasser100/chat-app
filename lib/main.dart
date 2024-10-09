@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:intl/date_symbol_data_local.dart';
 import 'firebase_options.dart';
 
 void main() async {
@@ -13,7 +14,9 @@ void main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
   await HiveHelper.initHive();
-  runApp(const MyApp());
+  initializeDateFormatting('ar', null).then((_) {
+    runApp(const MyApp());
+  });
 }
 
 class MyApp extends StatelessWidget {

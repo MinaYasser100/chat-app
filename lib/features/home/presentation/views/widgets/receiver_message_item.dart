@@ -1,11 +1,14 @@
 import 'package:chat_app/core/constant/styles/styles.dart';
+import 'package:chat_app/core/model/message_model.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class ReceiverMessageItem extends StatelessWidget {
   const ReceiverMessageItem({
     super.key,
+    required this.messageModel,
   });
-
+  final MessageModel messageModel;
   @override
   Widget build(BuildContext context) {
     return Align(
@@ -21,22 +24,34 @@ class ReceiverMessageItem extends StatelessWidget {
             topRight: Radius.circular(15),
           ),
         ),
-        child: const Row(
+        child: Row(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.end,
           children: [
-            // The message text should be flexible to wrap over multiple lines
             Flexible(
-              child: Text(
-                'sdgfasdjaskkdsjladflkjsdljfklajlfkjsd;kljf;klasjlfj;klasdj;fkljas;ldfja;kljfkljdkljfkdjkfhjkfjhj',
-                style: Styles.textStyle16Black,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    messageModel.sender.name,
+                    style: const TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.w600,
+                      color: Colors.white,
+                    ),
+                  ),
+                  Text(
+                    messageModel.content,
+                    style: Styles.textStyle16Black,
+                  ),
+                ],
               ),
             ),
-            SizedBox(width: 8),
+            const SizedBox(width: 8),
             // Timestamp
             Text(
-              '02:34',
-              style: TextStyle(
+              _formatTime12HourInArabic(messageModel.timestamp),
+              style: const TextStyle(
                 fontSize: 12,
                 color: Colors.white,
               ),
@@ -46,4 +61,9 @@ class ReceiverMessageItem extends StatelessWidget {
       ),
     );
   }
+}
+
+String _formatTime12HourInArabic(DateTime dateTime) {
+  // Set locale to Arabic ('ar') and format to 12-hour with AM/PM
+  return DateFormat('hh:mm a', 'ar').format(dateTime);
 }
