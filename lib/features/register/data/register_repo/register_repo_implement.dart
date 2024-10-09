@@ -30,7 +30,7 @@ class RegisterRepoImplement implements RegisterRepo {
     await _firestore
         .collection(Titles.userCollection)
         .doc(userModel.userId)
-        .set(userModel.toMap());
+        .set(userModel.toJson());
   }
 
   @override

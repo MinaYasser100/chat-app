@@ -19,7 +19,7 @@ class UserModel {
     required this.userId,
   });
 
-  factory UserModel.formJson(Map<String, dynamic> json) {
+  factory UserModel.fromJson(Map<String, dynamic> json) {
     return UserModel(
       name: json['name'] as String,
       email: json['email'] as String,
@@ -28,7 +28,7 @@ class UserModel {
     );
   }
 
-  Map<String, dynamic> toMap() {
+  Map<String, dynamic> toJson() {
     return {
       'name': name,
       'email': email,

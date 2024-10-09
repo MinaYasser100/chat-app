@@ -37,7 +37,7 @@ class LoginRepoImplement implements LoginRepo {
         .doc(userId)
         .get();
     if (value.exists) {
-      userModel = UserModel.formJson(value.data()!);
+      userModel = UserModel.fromJson(value.data()!);
     }
     return userModel;
   }
