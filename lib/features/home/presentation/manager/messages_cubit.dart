@@ -20,19 +20,26 @@ class MessagesCubit extends Cubit<MessagesState> {
     emit(MessagesLoaded(messages));
   }
 
-  Future<void> sendMessage(
-      {required String content, required UserModel sender}) async {
+  Future<void> sendMessage({
+    required String content,
+    required UserModel sender,
+  }) async {
     final message = MessageModel(
       id: DateTime.now().millisecondsSinceEpoch.toString(),
       sender: sender,
       content: content,
       timestamp: DateTime.now(),
     );
+
     try {
+      // Add the message to Firestore
       await _firestore.collection(Titles.messages).add(message.toJson());
+
+      // Save the message in Hive
       await HiveHelper.saveMessage(message);
-      final updatedMessages = HiveHelper.getMessages();
-      emit(MessagesLoaded(updatedMessages));
+
+      // Do not emit the updated messages list here
+      // The listener will handle emitting the complete messages list
     } catch (e) {
       emit(MessagesError('فشل أرسال الرسالة'));
     }
@@ -46,12 +53,19 @@ class MessagesCubit extends Cubit<MessagesState> {
         .listen(
       (snapshot) {
         List<MessageModel> messages = snapshot.docs.map((doc) {
+          // Ensure you are correctly converting each document into MessageModel
           return MessageModel.fromJson(doc.data());
         }).toList();
+
+        // Clear existing messages in Hive
         HiveHelper.clearMessages();
+
+        // Save the new messages in Hive
         for (var message in messages) {
           HiveHelper.saveMessage(message);
         }
+
+        // Emit the new list of messages
         emit(MessagesLoaded(messages));
       },
       onError: (error) {
