@@ -1,3 +1,4 @@
+import 'package:chat_app/core/constant/color/app_colors.dart';
 import 'package:chat_app/core/helper/hive/hive_helper.dart';
 import 'package:chat_app/core/helper/model/text_field_model.dart';
 import 'package:chat_app/core/model/user_model.dart';
@@ -56,7 +57,13 @@ class _HomeBodyViewState extends State<HomeBodyView>
         Expanded(
           child: BlocBuilder<MessagesCubit, MessagesState>(
             builder: (context, state) {
-              if (state is MessagesLoaded) {
+              if (state is MessagesLoaded && state.messages.isEmpty) {
+                return const Center(
+                  child: Text(
+                    'لا توجد رسائل حتي الان , ابدا بالمحادثة و استمتع بوقتك',
+                  ),
+                );
+              } else if (state is MessagesLoaded && state.messages.isNotEmpty) {
                 return ListView.builder(
                   controller: _scrollController,
                   itemCount: state.messages.length,
@@ -79,9 +86,9 @@ class _HomeBodyViewState extends State<HomeBodyView>
           clipBehavior: Clip.antiAliasWithSaveLayer,
           padding:
               const EdgeInsets.only(top: 12, right: 10, left: 10, bottom: 20),
-          decoration: BoxDecoration(
-            color: Colors.grey[200],
-            borderRadius: const BorderRadius.only(
+          decoration: const BoxDecoration(
+            color: AppColors.primaryColor,
+            borderRadius: BorderRadius.only(
               topLeft: Radius.circular(20),
               topRight: Radius.circular(20),
             ),

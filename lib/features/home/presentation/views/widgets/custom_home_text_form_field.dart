@@ -1,4 +1,3 @@
-import 'package:chat_app/core/constant/color/app_colors.dart';
 import 'package:chat_app/core/helper/model/text_field_model.dart';
 import 'package:flutter/material.dart';
 
@@ -15,17 +14,20 @@ class CustomHomeTextFormField extends StatelessWidget {
   Widget build(BuildContext context) {
     return TextFormField(
       controller: textFieldModel.controller,
+      style: const TextStyle(
+        color: Colors.white,
+      ),
       decoration: InputDecoration(
         suffixIcon: IconButton(
           onPressed: suffixOnTap,
           icon: Icon(
             textFieldModel.periprefixIcon,
-            color: AppColors.primaryColor,
+            color: Colors.white,
           ),
         ),
         hintText: textFieldModel.hintText,
         hintStyle: const TextStyle(
-          color: Colors.grey,
+          color: Colors.white,
         ),
         border: customOutLineInputBorder(),
         enabledBorder: customOutLineInputBorder(),
@@ -39,7 +41,7 @@ class CustomHomeTextFormField extends StatelessWidget {
   OutlineInputBorder customOutLineInputBorder() {
     return OutlineInputBorder(
       borderRadius: BorderRadius.circular(20),
-      borderSide: const BorderSide(color: AppColors.primaryColor),
+      borderSide: const BorderSide(color: Colors.white),
     );
   }
 }

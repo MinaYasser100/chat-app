@@ -15,14 +15,14 @@ class SenderMessageItem extends StatelessWidget {
     return Align(
       alignment: Alignment.centerRight,
       child: Container(
-        margin: const EdgeInsets.only(bottom: 12, right: 10, left: 10),
-        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
+        margin: const EdgeInsets.only(bottom: 6, right: 10, left: 10),
+        padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 4),
         decoration: BoxDecoration(
           color: AppColors.primaryColor.withOpacity(0.6),
           borderRadius: const BorderRadius.only(
-            bottomLeft: Radius.circular(15),
-            topLeft: Radius.circular(15),
-            topRight: Radius.circular(15),
+            bottomLeft: Radius.circular(10),
+            topLeft: Radius.circular(10),
+            topRight: Radius.circular(10),
           ),
         ),
         child: Row(
@@ -34,7 +34,7 @@ class SenderMessageItem extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    messageModel.sender.name,
+                    getFirstThreeWords(messageModel.sender.name),
                     style: const TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.w600,
@@ -66,4 +66,10 @@ class SenderMessageItem extends StatelessWidget {
 String _formatTime12HourInArabic(DateTime dateTime) {
   // Set locale to Arabic ('ar') and format to 12-hour with AM/PM
   return DateFormat('hh:mm a', 'ar').format(dateTime);
+}
+
+String getFirstThreeWords(String name) {
+  List<String> words = name.split(' ');
+  String newName = words.take(3).join(' ');
+  return newName;
 }
