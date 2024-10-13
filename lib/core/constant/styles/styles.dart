@@ -24,4 +24,9 @@ class Styles {
   static const TextStyle textStyle16Black = TextStyle(
     fontSize: 16,
   );
+
+  static const TextStyle textStyle20 = TextStyle(
+    fontSize: 20,
+    fontWeight: FontWeight.w600,
+  );
 }
