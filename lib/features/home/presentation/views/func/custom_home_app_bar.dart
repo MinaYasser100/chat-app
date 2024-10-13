@@ -1,8 +1,10 @@
 import 'package:chat_app/core/constant/color/app_colors.dart';
 import 'package:chat_app/core/constant/styles/styles.dart';
 import 'package:chat_app/core/helper/hive/hive_helper.dart';
+import 'package:chat_app/core/helper/pages/get_pages.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:get/get.dart';
 
 AppBar customHomeAppBar() {
   return AppBar(
@@ -24,7 +26,9 @@ AppBar customHomeAppBar() {
     ),
     actions: [
       IconButton(
-        onPressed: () {},
+        onPressed: () {
+          Get.toNamed(GetPages.kSettingView);
+        },
         icon: const Icon(FontAwesomeIcons.gear),
       ),
     ],
