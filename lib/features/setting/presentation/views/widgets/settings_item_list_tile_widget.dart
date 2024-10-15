@@ -7,13 +7,15 @@ class SettingsItemListTileWidget extends StatelessWidget {
   const SettingsItemListTileWidget({
     super.key,
     required this.settingsItemModel,
+    this.onTap,
   });
   final SettingsItemModel settingsItemModel;
+  final void Function()? onTap;
   @override
   Widget build(BuildContext context) {
     return ListTile(
       leading: Icon(settingsItemModel.leadingIcon),
-      onTap: settingsItemModel.onTap,
+      onTap: onTap,
       iconColor: AppColors.primaryColor,
       title: Text(
         settingsItemModel.title,
