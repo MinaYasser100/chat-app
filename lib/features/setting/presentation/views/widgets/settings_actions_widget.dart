@@ -49,7 +49,16 @@ class SettingsActionsWidget extends StatelessWidget {
             ),
             SettingsItemListTileWidget(
               settingsItemModel: settingsItems[3],
-              onTap: () {},
+              onTap: () {
+                customShowDialog(
+                  context: context,
+                  title: 'حذف الحساب',
+                  content: 'هل أنت بالفعل تريد حذف الحساب الخاص بك الأن',
+                  onPressed: () {
+                    context.read<SettingsCubit>().deleteUserAccount(userModel);
+                  },
+                );
+              },
             ),
           ],
         );

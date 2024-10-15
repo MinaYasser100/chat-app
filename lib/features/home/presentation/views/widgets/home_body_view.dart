@@ -69,7 +69,7 @@ class _HomeBodyViewState extends State<HomeBodyView>
                   itemCount: state.messages.length,
                   itemBuilder: (context, index) {
                     final message = state.messages[index];
-                    return message.sender.userId == userModel.userId
+                    return message.sender.email == userModel.email
                         ? SenderMessageItem(messageModel: message)
                         : ReceiverMessageItem(messageModel: message);
                   },

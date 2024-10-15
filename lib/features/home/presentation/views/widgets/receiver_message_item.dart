@@ -33,7 +33,7 @@ class ReceiverMessageItem extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    messageModel.sender.name,
+                    getFirstThreeWords(messageModel.sender.name),
                     style: const TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.w600,
@@ -66,4 +66,10 @@ class ReceiverMessageItem extends StatelessWidget {
 String _formatTime12HourInArabic(DateTime dateTime) {
   // Set locale to Arabic ('ar') and format to 12-hour with AM/PM
   return DateFormat('hh:mm a', 'ar').format(dateTime);
+}
+
+String getFirstThreeWords(String name) {
+  List<String> words = name.split(' ');
+  String newName = words.take(3).join(' ');
+  return newName;
 }
