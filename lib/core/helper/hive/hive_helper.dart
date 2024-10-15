@@ -60,4 +60,9 @@ class HiveHelper {
     var box = Hive.box<bool>(Titles.checkHive);
     return box.get(Titles.loginCheckHive, defaultValue: false) ?? false;
   }
+
+  static void singOutUserLogin() async {
+    var box = Hive.box<bool>(Titles.checkHive);
+    await box.put(Titles.loginCheckHive, false);
+  }
 }
