@@ -3,6 +3,7 @@ import 'package:chat_app/core/constant/styles/styles.dart';
 import 'package:chat_app/core/helper/model/text_field_model.dart';
 import 'package:chat_app/core/helper/widgets/custom_text_form_field.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 Future<dynamic> customPasswordShowDialog({
   required BuildContext context,
@@ -60,6 +61,18 @@ Future<dynamic> customPasswordShowDialog({
           onPressed: onPressed,
           child: Text(
             'أرسال',
+            style: Styles.textStyle18Gray.copyWith(
+              color: AppColors.secondColor,
+              fontWeight: FontWeight.w700,
+            ),
+          ),
+        ),
+        ElevatedButton(
+          onPressed: () {
+            Get.back();
+          },
+          child: Text(
+            'ألغاء',
             style: Styles.textStyle18Gray.copyWith(
               color: AppColors.secondColor,
               fontWeight: FontWeight.w700,
