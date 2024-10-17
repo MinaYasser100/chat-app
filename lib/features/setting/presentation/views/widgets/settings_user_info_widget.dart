@@ -1,4 +1,5 @@
 import 'package:chat_app/core/constant/styles/styles.dart';
+import 'package:chat_app/core/helper/widgets/custom_user_image.dart';
 import 'package:chat_app/core/model/user_model.dart';
 import 'package:flutter/material.dart';
 
@@ -17,15 +18,8 @@ class SettingsUserInfoWidget extends StatelessWidget {
         const SizedBox(
           height: 20,
         ),
-        Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: CircleAvatar(
-            radius: 102,
-            child: CircleAvatar(
-              radius: 97,
-              backgroundImage: NetworkImage(userModel.image),
-            ),
-          ),
+        CustomUserImage(
+          image: userModel.image,
         ),
         Text(
           userModel.name,
