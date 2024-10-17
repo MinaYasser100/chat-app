@@ -16,3 +16,11 @@ final class SettingsDeleteAccountLoading extends SettingsState {}
 final class SettingsDeleteAccountSuccess extends SettingsState {}
 
 final class SettingsDeleteAccountFailure extends SettingsState {}
+
+final class SettingsResetUserPasswordLoading extends SettingsState {}
+
+final class SettingsResetUserPasswordSuccess extends SettingsState {}
+
+final class SettingsResetUserPasswordFailure extends SettingsState {}
+
+final class SettingsChangePasswordAutovalidateMode extends SettingsState {}

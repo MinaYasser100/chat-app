@@ -7,10 +7,11 @@ class CustomTextFormField extends StatefulWidget {
     super.key,
     required this.textFieldModel,
     this.isPassword = false,
+    this.iconColor = AppColors.primaryColor,
   });
   final TextFieldModel textFieldModel;
   final bool isPassword;
-
+  final Color iconColor;
   @override
   State<CustomTextFormField> createState() => _CustomTextFormFieldState();
 }
@@ -26,7 +27,7 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
       decoration: InputDecoration(
         prefixIcon: Icon(
           widget.textFieldModel.periprefixIcon,
-          color: AppColors.primaryColor,
+          color: widget.iconColor,
         ),
         suffixIcon: widget.isPassword
             ? GestureDetector(
@@ -40,7 +41,7 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
                       : Icons.visibility_outlined,
                 ),
               )
-            : const SizedBox(),
+            : null,
         hintText: widget.textFieldModel.hintText,
         hintStyle: const TextStyle(
           color: Colors.grey,
@@ -57,7 +58,7 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
   OutlineInputBorder customOutLineInputBorder() {
     return OutlineInputBorder(
       borderRadius: BorderRadius.circular(20),
-      borderSide: const BorderSide(color: AppColors.primaryColor),
+      borderSide: BorderSide(color: widget.iconColor),
     );
   }
 }

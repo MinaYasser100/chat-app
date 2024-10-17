@@ -41,18 +41,20 @@ class _SettingsBodyViewState extends State<SettingsBodyView> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        const SizedBox(
-          width: double.infinity,
-        ),
-        SettingsUserInfoWidget(userModel: userModel),
-        SettingsActionsWidget(
-          settingsItems: settingsItems,
-          userModel: userModel,
-        ),
-      ],
+    return SingleChildScrollView(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          const SizedBox(
+            width: double.infinity,
+          ),
+          SettingsUserInfoWidget(userModel: userModel),
+          SettingsActionsWidget(
+            settingsItems: settingsItems,
+            userModel: userModel,
+          ),
+        ],
+      ),
     );
   }
 }

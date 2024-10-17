@@ -1,3 +1,4 @@
+import 'package:chat_app/core/error/error_handler.dart';
 import 'package:chat_app/core/helper/hive/hive_helper.dart';
 import 'package:chat_app/core/helper/pages/get_pages.dart';
 import 'package:chat_app/core/model/user_model.dart';
@@ -11,8 +12,10 @@ import 'package:get/get.dart';
 part 'settings_state.dart';
 
 class SettingsCubit extends Cubit<SettingsState> {
-  SettingsCubit(this.settingsRepo) : super(SettingsInitial());
-  final SettingsRepo settingsRepo;
+  SettingsCubit(this._settingsRepo) : super(SettingsInitial());
+
+  final SettingsRepo _settingsRepo;
+
   Future<void> signOutService(UserModel userModel) async {
     emit(SettingsSignOutLoading());
     try {
@@ -39,7 +42,7 @@ class SettingsCubit extends Cubit<SettingsState> {
     try {
       if (HiveHelper.getUserLogin()) {
         EasyLoading.show(status: 'تحميل...');
-        await settingsRepo.deleteUserAccount(userModel);
+        await _settingsRepo.deleteUserAccount(userModel);
         EasyLoading.showSuccess('Successfully delete account');
         Get.offAllNamed(GetPages.kSplashView);
         emit(SettingsDeleteAccountSuccess());
@@ -48,6 +51,34 @@ class SettingsCubit extends Cubit<SettingsState> {
       EasyLoading.dismiss();
       EasyLoading.showError('Error Occurred, Please Try Again');
       emit(SettingsDeleteAccountFailure());
+    }
+  }
+
+  AutovalidateMode autovalidateMode = AutovalidateMode.disabled;
+  void changePasswordAutovalidateMode() {
+    autovalidateMode = AutovalidateMode.always;
+    emit(SettingsChangePasswordAutovalidateMode());
+  }
+
+  void changeUserPassword({required String email}) async {
+    emit(SettingsResetUserPasswordLoading());
+    try {
+      if (HiveHelper.getUserLogin()) {
+        FirebaseAuth auth = FirebaseAuth.instance;
+        User? currentUser = auth.currentUser;
+        if (currentUser != null && currentUser.email == email) {
+          await auth.sendPasswordResetEmail(email: email);
+          emit(SettingsResetUserPasswordSuccess());
+          EasyLoading.showSuccess(
+            'انتظر سوف تاتي لك رسالة علي الايميل الخاص بك لتغيير كلمة المرور',
+            duration: const Duration(seconds: 5),
+          );
+        } else {
+          emit(SettingsResetUserPasswordFailure());
+        }
+      }
+    } on FirebaseAuthException catch (e) {
+      errorHandler(error: e);
     }
   }
 }
