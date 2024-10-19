@@ -46,9 +46,9 @@ class HiveHelper {
     return userBox.values.first;
   }
 
-  static void deleteUserData() {
+  static void deleteUserData() async {
     var box = Hive.box<UserModel>(Titles.userModelHive);
-    box.clear();
+    await box.clear();
   }
 
   static void saveUserLogin() async {
@@ -64,5 +64,11 @@ class HiveHelper {
   static void singOutUserLogin() async {
     var box = Hive.box<bool>(Titles.checkHive);
     await box.put(Titles.loginCheckHive, false);
+  }
+
+  static Future<void> updateUserDataInHive(UserModel updatedUserModel) async {
+    var userBox = Hive.box<UserModel>(Titles.userModelHive);
+    await userBox.clear();
+    await userBox.add(updatedUserModel);
   }
 }

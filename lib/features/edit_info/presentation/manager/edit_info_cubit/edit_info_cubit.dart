@@ -1,7 +1,12 @@
 import 'dart:io';
 
+import 'package:chat_app/core/constant/title/titles.dart';
+import 'package:chat_app/core/error/error_handler.dart';
 import 'package:chat_app/core/helper/func/custom_snackbar_fun.dart';
+import 'package:chat_app/core/helper/hive/hive_helper.dart';
+import 'package:chat_app/core/model/user_model.dart';
 import 'package:chat_app/features/edit_info/data/repo/edit_info_repo.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -54,6 +59,37 @@ class EditInfoCubit extends Cubit<EditInfoState> {
         text: 'خطاء',
         color: Colors.red,
       );
+    }
+  }
+
+  Future<void> updateUserData({required String userName}) async {
+    emit(EditInfoCubitUpdateUserDataLoading());
+    UserModel userModel = HiveHelper.getUserData();
+
+    UserModel updateUserModel = UserModel(
+      name: userName,
+      email: userModel.email,
+      image: imageSelected ?? userModel.image,
+      userId: userModel.userId,
+    );
+
+    try {
+      EasyLoading.show(status: 'تحميل...');
+      await FirebaseFirestore.instance
+          .collection(Titles.userCollection)
+          .doc(userModel.userId)
+          .update(updateUserModel.toJson())
+          .then((value) async {
+        HiveHelper.updateUserDataInHive(updateUserModel);
+      });
+      EasyLoading.dismiss();
+      EasyLoading.showSuccess('تم تعديل البيانات بنجاح');
+      emit(EditInfoCubitUpdateUserDataSuccess());
+    } on Exception catch (e) {
+      errorHandler(error: e);
+      emit(EditInfoCubitImageUploadingFailure());
+      print('-------------------------------------');
+      print(e.toString());
     }
   }
 }

@@ -14,3 +14,9 @@ final class EditInfoCubitImageUploadingLoading extends EditInfoState {}
 final class EditInfoCubitImageUploadingSuccess extends EditInfoState {}
 
 final class EditInfoCubitImageUploadingFailure extends EditInfoState {}
+
+final class EditInfoCubitUpdateUserDataLoading extends EditInfoState {}
+
+final class EditInfoCubitUpdateUserDataSuccess extends EditInfoState {}
+
+final class EditInfoCubitUpdateUserDataFailure extends EditInfoState {}

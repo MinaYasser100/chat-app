@@ -8,10 +8,12 @@ class CustomTextFormField extends StatefulWidget {
     required this.textFieldModel,
     this.isPassword = false,
     this.iconColor = AppColors.primaryColor,
+    this.readOnly = false,
   });
   final TextFieldModel textFieldModel;
   final bool isPassword;
   final Color iconColor;
+  final bool readOnly;
   @override
   State<CustomTextFormField> createState() => _CustomTextFormFieldState();
 }
@@ -24,6 +26,7 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
       controller: widget.textFieldModel.controller,
       obscureText: widget.isPassword ? isObscureText : false,
       validator: widget.textFieldModel.validator,
+      readOnly: widget.readOnly,
       decoration: InputDecoration(
         prefixIcon: Icon(
           widget.textFieldModel.periprefixIcon,
