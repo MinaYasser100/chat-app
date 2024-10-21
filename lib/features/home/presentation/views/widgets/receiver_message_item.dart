@@ -49,12 +49,20 @@ class ReceiverMessageItem extends StatelessWidget {
             ),
             const SizedBox(width: 8),
             // Timestamp
-            Text(
-              _formatTime12HourInArabic(messageModel.timestamp),
-              style: const TextStyle(
-                fontSize: 12,
-                color: Colors.white,
-              ),
+            Column(
+              children: [
+                CircleAvatar(
+                  radius: 18,
+                  backgroundImage: NetworkImage(messageModel.sender.image),
+                ),
+                Text(
+                  _formatTime12HourInArabic(messageModel.timestamp),
+                  style: const TextStyle(
+                    fontSize: 12,
+                    color: Colors.white,
+                  ),
+                ),
+              ],
             ),
           ],
         ),
