@@ -147,7 +147,7 @@ class _RegisterBodyViewState extends State<RegisterBodyView> {
                           context.read<RegisterCubit>().registerUser(
                                 RegisterUserData(
                                   name: nameController.text,
-                                  email: emailController.text,
+                                  email: emailController.text.trim(),
                                   password: passwordController.text,
                                 ),
                               );

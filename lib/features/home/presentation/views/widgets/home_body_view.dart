@@ -55,31 +55,39 @@ class _HomeBodyViewState extends State<HomeBodyView>
       children: [
         const SizedBox(height: 10),
         Expanded(
-          child: BlocBuilder<MessagesCubit, MessagesState>(
-            builder: (context, state) {
-              if (state is MessagesLoaded && state.messages.isEmpty) {
-                return const Center(
-                  child: Text(
-                    'لا توجد رسائل حتي الان , ابدا بالمحادثة و استمتع بوقتك',
-                  ),
-                );
-              } else if (state is MessagesLoaded && state.messages.isNotEmpty) {
-                return ListView.builder(
-                  controller: _scrollController,
-                  itemCount: state.messages.length,
-                  itemBuilder: (context, index) {
-                    final message = state.messages[index];
-                    return message.sender.email == userModel.email
-                        ? SenderMessageItem(messageModel: message)
-                        : ReceiverMessageItem(messageModel: message);
-                  },
-                );
-              } else if (state is MessagesError) {
-                return Center(child: Text('Error: ${state.error}'));
-              } else {
-                return const Center(child: CircularProgressIndicator());
+          child: BlocListener<MessagesCubit, MessagesState>(
+            listener: (context, state) {
+              if (state is MessagesLoaded) {
+                _scrollToBottom();
               }
             },
+            child: BlocBuilder<MessagesCubit, MessagesState>(
+              builder: (context, state) {
+                if (state is MessagesLoaded && state.messages.isEmpty) {
+                  return const Center(
+                    child: Text(
+                      'لا توجد رسائل حتي الان , ابدا بالمحادثة و استمتع بوقتك',
+                    ),
+                  );
+                } else if (state is MessagesLoaded &&
+                    state.messages.isNotEmpty) {
+                  return ListView.builder(
+                    controller: _scrollController,
+                    itemCount: state.messages.length,
+                    itemBuilder: (context, index) {
+                      final message = state.messages[index];
+                      return message.sender.email == userModel.email
+                          ? SenderMessageItem(messageModel: message)
+                          : ReceiverMessageItem(messageModel: message);
+                    },
+                  );
+                } else if (state is MessagesError) {
+                  return Center(child: Text('Error: ${state.error}'));
+                } else {
+                  return const Center(child: CircularProgressIndicator());
+                }
+              },
+            ),
           ),
         ),
         Container(
