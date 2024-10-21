@@ -4,6 +4,8 @@ import 'package:chat_app/features/login/presentation/views/login_view.dart';
 import 'package:chat_app/features/register/presentation/views/register_view.dart';
 import 'package:chat_app/features/setting/presentation/views/settings_view.dart';
 import 'package:chat_app/features/splash/presentation/views/splash_view.dart';
+import 'package:chat_app/features/user_info/presentation/views/user_info_view.dart';
+import 'package:chat_app/features/user_info/presentation/views/widgets/user_image_widget.dart';
 import 'package:get/get.dart';
 
 class GetPages {
@@ -15,6 +17,8 @@ class GetPages {
   static const String kHomeView = '/HomeView';
   static const String kSettingView = '/SettingView';
   static const String kEditInfoView = '/EditInfoView';
+  static const String kUserInfoView = '/UserInfoView';
+  static const String kUserImageWidget = '/UserImageWidget';
 
   static List<GetPage<dynamic>> getPages = [
     GetPage(
@@ -45,6 +49,16 @@ class GetPages {
     GetPage(
       name: kEditInfoView,
       page: () => const EditInfoView(),
+      transition: ktransition,
+    ),
+    GetPage(
+      name: kUserInfoView,
+      page: () => const UserInfoView(),
+      transition: ktransition,
+    ),
+    GetPage(
+      name: kUserImageWidget,
+      page: () => const UserImageWidget(),
       transition: ktransition,
     ),
   ];

@@ -1,6 +1,8 @@
 import 'package:chat_app/core/constant/styles/styles.dart';
+import 'package:chat_app/core/helper/pages/get_pages.dart';
 import 'package:chat_app/core/model/message_model.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
 class ReceiverMessageItem extends StatelessWidget {
@@ -32,12 +34,18 @@ class ReceiverMessageItem extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    getFirstThreeWords(messageModel.sender.name),
-                    style: const TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.w600,
-                      color: Colors.white,
+                  GestureDetector(
+                    onTap: () {
+                      Get.toNamed(GetPages.kUserInfoView,
+                          arguments: messageModel.sender);
+                    },
+                    child: Text(
+                      getFirstThreeWords(messageModel.sender.name),
+                      style: const TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.w600,
+                        color: Colors.white,
+                      ),
                     ),
                   ),
                   Text(
