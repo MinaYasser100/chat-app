@@ -27,6 +27,9 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
       obscureText: widget.isPassword ? isObscureText : false,
       validator: widget.textFieldModel.validator,
       readOnly: widget.readOnly,
+      style: TextStyle(
+        color: widget.readOnly ? Colors.grey : Colors.black,
+      ),
       decoration: InputDecoration(
         prefixIcon: Icon(
           widget.textFieldModel.periprefixIcon,

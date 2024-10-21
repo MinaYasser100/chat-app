@@ -81,6 +81,7 @@ class EditInfoCubit extends Cubit<EditInfoState> {
           .update(updateUserModel.toJson())
           .then((value) async {
         HiveHelper.updateUserDataInHive(updateUserModel);
+        await _editInfoRepo.changeUserInfoInAllMessage(updateUserModel);
       });
       EasyLoading.dismiss();
       EasyLoading.showSuccess('تم تعديل البيانات بنجاح');
@@ -88,8 +89,6 @@ class EditInfoCubit extends Cubit<EditInfoState> {
     } on Exception catch (e) {
       errorHandler(error: e);
       emit(EditInfoCubitImageUploadingFailure());
-      print('-------------------------------------');
-      print(e.toString());
     }
   }
 }
