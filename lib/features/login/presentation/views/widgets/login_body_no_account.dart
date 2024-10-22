@@ -11,7 +11,7 @@ class LoginBodyNoAccount extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(top: 10, bottom: 30),
+      padding: const EdgeInsets.only(top: 10, bottom: 20),
       child: Column(
         children: [
           const Text(

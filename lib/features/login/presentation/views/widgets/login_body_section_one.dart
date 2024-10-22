@@ -12,7 +12,7 @@ class LoginBodySectionOne extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         const SizedBox(
-          height: 100,
+          height: 70,
         ),
         Image.asset('assets/images/welcome.jpg'),
         const SizedBox(

@@ -19,6 +19,13 @@ class LoginCubit extends Cubit<LoginState> {
     emit(LoginChangeLoginAutovalidateMode());
   }
 
+  AutovalidateMode forgettenPasswordAutovalidateMode =
+      AutovalidateMode.disabled;
+  changeforgettenPasswordAutovalidateMode() {
+    forgettenPasswordAutovalidateMode = AutovalidateMode.always;
+    emit(LoginChangeLoginAutovalidateMode());
+  }
+
   Future<void> loginUser({
     required String email,
     required String password,
@@ -44,6 +51,22 @@ class LoginCubit extends Cubit<LoginState> {
       errorHandler(error: e);
       EasyLoading.dismiss();
       emit(LoginCubitLoginUserFailure());
+    }
+  }
+
+  void changeUserPassword({required String email}) async {
+    emit(LoginCubitForgettenPasswordLoading());
+    try {
+      FirebaseAuth auth = FirebaseAuth.instance;
+      await auth.sendPasswordResetEmail(email: email);
+      emit(LoginCubitForgettenPasswordSuccess());
+      EasyLoading.showSuccess(
+        'انتظر سوف تاتي لك رسالة علي الايميل الخاص بك لتغيير كلمة المرور',
+        duration: const Duration(seconds: 5),
+      );
+    } on FirebaseAuthException catch (e) {
+      errorHandler(error: e);
+      emit(LoginCubitForgettenPasswordFailure());
     }
   }
 }
