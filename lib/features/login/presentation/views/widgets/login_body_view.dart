@@ -119,7 +119,7 @@ class _LoginBodyViewState extends State<LoginBodyView> {
                     onPressed: () {
                       if (loginKey.currentState!.validate()) {
                         context.read<LoginCubit>().loginUser(
-                              email: emailController.text,
+                              email: emailController.text.trim(),
                               password: passwordController.text,
                             );
                       } else {

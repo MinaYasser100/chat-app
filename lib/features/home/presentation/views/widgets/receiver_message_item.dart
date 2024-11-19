@@ -16,7 +16,7 @@ class ReceiverMessageItem extends StatelessWidget {
     return Align(
       alignment: Alignment.centerLeft,
       child: Container(
-        margin: const EdgeInsets.only(bottom: 12, right: 10, left: 10),
+        margin: const EdgeInsets.only(top: 6, right: 10, left: 10, bottom: 2),
         padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
         decoration: const BoxDecoration(
           color: Colors.grey,

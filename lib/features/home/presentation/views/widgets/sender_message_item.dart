@@ -17,7 +17,7 @@ class SenderMessageItem extends StatelessWidget {
     return Align(
       alignment: Alignment.centerRight,
       child: Container(
-        margin: const EdgeInsets.only(bottom: 6, right: 10, left: 10),
+        margin: const EdgeInsets.only(top: 6, right: 10, left: 10, bottom: 2),
         padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 4),
         decoration: BoxDecoration(
           color: AppColors.primaryColor.withOpacity(0.6),

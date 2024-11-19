@@ -1,6 +1,7 @@
 import 'package:chat_app/core/constant/color/app_colors.dart';
 import 'package:chat_app/core/helper/hive/hive_helper.dart';
 import 'package:chat_app/core/helper/model/text_field_model.dart';
+import 'package:chat_app/core/helper/notification/notification_helper.dart';
 import 'package:chat_app/core/model/user_model.dart';
 import 'package:chat_app/features/home/presentation/manager/messages_cubit.dart';
 import 'package:chat_app/features/home/presentation/views/widgets/receiver_message_item.dart';
@@ -53,7 +54,6 @@ class _HomeBodyViewState extends State<HomeBodyView>
   Widget build(BuildContext context) {
     return Column(
       children: [
-        const SizedBox(height: 10),
         Expanded(
           child: BlocListener<MessagesCubit, MessagesState>(
             listener: (context, state) {
@@ -90,6 +90,7 @@ class _HomeBodyViewState extends State<HomeBodyView>
             ),
           ),
         ),
+        const SizedBox(height: 5),
         Container(
           clipBehavior: Clip.antiAliasWithSaveLayer,
           padding:
@@ -109,11 +110,22 @@ class _HomeBodyViewState extends State<HomeBodyView>
             ),
             suffixOnTap: () {
               if (messageController.text.isNotEmpty) {
+                // Get the message content and clear the text field immediately.
+                final messageContent = messageController.text;
+                messageController.clear();
+                // Send the message.
                 context.read<MessagesCubit>().sendMessage(
-                      content: messageController.text,
+                      content: messageContent,
                       sender: userModel,
                     );
-                messageController.clear();
+                // Send the notification as a microtask to avoid UI delay.
+                Future.microtask(() async {
+                  await NotificationHelper().sendNotification(
+                    title: userModel.name,
+                    body: messageContent,
+                    imageUrl: userModel.image,
+                  );
+                });
                 _scrollToBottom();
               }
             },

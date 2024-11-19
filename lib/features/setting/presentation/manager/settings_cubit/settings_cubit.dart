@@ -1,9 +1,11 @@
 import 'package:chat_app/core/error/error_handler.dart';
 import 'package:chat_app/core/helper/hive/hive_helper.dart';
+import 'package:chat_app/core/helper/notification/notification_helper.dart';
 import 'package:chat_app/core/helper/pages/get_pages.dart';
 import 'package:chat_app/core/model/user_model.dart';
 import 'package:chat_app/features/setting/data/repo/settings_repo.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
@@ -27,6 +29,8 @@ class SettingsCubit extends Cubit<SettingsState> {
         EasyLoading.dismiss();
         EasyLoading.showSuccess('Successfully sing out');
         Get.offAllNamed(GetPages.kSplashView);
+        await FirebaseMessaging.instance
+            .unsubscribeFromTopic(NotificationHelper().notificationPublicTopic);
         emit(SettingsSignOutSuccess());
       }
     } catch (e) {
@@ -44,6 +48,8 @@ class SettingsCubit extends Cubit<SettingsState> {
         EasyLoading.show(status: 'تحميل...');
         await _settingsRepo.deleteUserAccount(userModel);
         EasyLoading.showSuccess('Successfully delete account');
+        await FirebaseMessaging.instance
+            .unsubscribeFromTopic(NotificationHelper().notificationPublicTopic);
         Get.offAllNamed(GetPages.kSplashView);
         emit(SettingsDeleteAccountSuccess());
       }

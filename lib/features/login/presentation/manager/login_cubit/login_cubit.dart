@@ -1,8 +1,10 @@
 import 'package:chat_app/core/error/error_handler.dart';
 import 'package:chat_app/core/helper/hive/hive_helper.dart';
+import 'package:chat_app/core/helper/notification/notification_helper.dart';
 import 'package:chat_app/core/model/user_model.dart';
 import 'package:chat_app/features/login/data/login_repo/login_repo.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -45,6 +47,8 @@ class LoginCubit extends Cubit<LoginState> {
             userId: userCredential.user!.uid);
       }
       if (userModel != null) await HiveHelper.saveUserData(userModel);
+      await FirebaseMessaging.instance
+          .subscribeToTopic(NotificationHelper().notificationPublicTopic);
       EasyLoading.dismiss();
       emit(LoginCubitLoginUserSuccess());
     } on Exception catch (e) {
