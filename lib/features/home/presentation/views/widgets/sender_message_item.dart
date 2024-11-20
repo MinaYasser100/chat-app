@@ -6,72 +6,113 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
-class SenderMessageItem extends StatelessWidget {
+class SenderMessageItem extends StatefulWidget {
   const SenderMessageItem({
     super.key,
     required this.messageModel,
   });
   final MessageModel messageModel;
+
+  @override
+  State<SenderMessageItem> createState() => _SenderMessageItemState();
+}
+
+class _SenderMessageItemState extends State<SenderMessageItem> {
+  late bool isViewDeleteIcon;
+  @override
+  void initState() {
+    isViewDeleteIcon = false;
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Align(
-      alignment: Alignment.centerRight,
-      child: Container(
-        margin: const EdgeInsets.only(top: 6, right: 10, left: 10, bottom: 2),
-        padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 4),
-        decoration: BoxDecoration(
-          color: AppColors.primaryColor.withOpacity(0.6),
-          borderRadius: const BorderRadius.only(
-            bottomLeft: Radius.circular(10),
-            topLeft: Radius.circular(10),
-            topRight: Radius.circular(10),
+    return GestureDetector(
+      onLongPress: () async {
+        isViewDeleteIcon = true;
+        setState(() {});
+        await Future.delayed(
+          const Duration(
+            seconds: 5,
           ),
-        ),
+        );
+        isViewDeleteIcon = false;
+        setState(() {});
+      },
+      child: Align(
+        alignment: Alignment.centerRight,
         child: Row(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.end,
           children: [
-            Flexible(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+            Container(
+              margin:
+                  const EdgeInsets.only(top: 6, right: 10, left: 10, bottom: 2),
+              padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 4),
+              decoration: BoxDecoration(
+                color: AppColors.primaryColor.withOpacity(0.6),
+                borderRadius: const BorderRadius.only(
+                  bottomLeft: Radius.circular(10),
+                  topLeft: Radius.circular(10),
+                  topRight: Radius.circular(10),
+                ),
+              ),
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
-                  GestureDetector(
-                    onTap: () {
-                      Get.toNamed(GetPages.kUserInfoView,
-                          arguments: messageModel.sender);
-                    },
-                    child: Text(
-                      getFirstThreeWords(messageModel.sender.name),
-                      style: const TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.w600,
-                        color: Colors.white,
-                      ),
+                  Flexible(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        GestureDetector(
+                          onTap: () {
+                            Get.toNamed(GetPages.kUserInfoView,
+                                arguments: widget.messageModel.sender);
+                          },
+                          child: Text(
+                            getFirstThreeWords(widget.messageModel.sender.name),
+                            style: const TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.w600,
+                              color: Colors.white,
+                            ),
+                          ),
+                        ),
+                        Text(
+                          widget.messageModel.content,
+                          style: Styles.textStyle16Black,
+                        ),
+                      ],
                     ),
                   ),
-                  Text(
-                    messageModel.content,
-                    style: Styles.textStyle16Black,
+                  const SizedBox(width: 8),
+                  Column(
+                    children: [
+                      CircleAvatar(
+                        radius: 18,
+                        backgroundImage:
+                            NetworkImage(widget.messageModel.sender.image),
+                      ),
+                      Text(
+                        _formatTime12HourInArabic(
+                            widget.messageModel.timestamp),
+                        style: const TextStyle(
+                          fontSize: 12,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ],
                   ),
                 ],
               ),
             ),
-            const SizedBox(width: 8),
-            Column(
-              children: [
-                CircleAvatar(
-                  radius: 18,
-                  backgroundImage: NetworkImage(messageModel.sender.image),
+            if (isViewDeleteIcon)
+              IconButton(
+                onPressed: () {},
+                icon: const Icon(
+                  Icons.delete_rounded,
+                  color: Colors.red,
                 ),
-                Text(
-                  _formatTime12HourInArabic(messageModel.timestamp),
-                  style: const TextStyle(
-                    fontSize: 12,
-                    color: Colors.white,
-                  ),
-                ),
-              ],
-            ),
+              ),
           ],
         ),
       ),
