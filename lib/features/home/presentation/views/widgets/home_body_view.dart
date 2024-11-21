@@ -77,8 +77,22 @@ class _HomeBodyViewState extends State<HomeBodyView>
                     itemBuilder: (context, index) {
                       final message = state.messages[index];
                       return message.sender.email == userModel.email
-                          ? SenderMessageItem(messageModel: message)
-                          : ReceiverMessageItem(messageModel: message);
+                          ? SenderMessageItem(
+                              messageModel: message,
+                              onPressedDelete: () async {
+                                // Call the delete function from the MessagesCubit
+                                final cubit = context.read<MessagesCubit>();
+                                await cubit.deleteMessage(message);
+                              },
+                            )
+                          : ReceiverMessageItem(
+                              messageModel: message,
+                              onPressedDelete: () async {
+                                // Call the delete function from the MessagesCubit
+                                final cubit = context.read<MessagesCubit>();
+                                await cubit.deleteMessage(message);
+                              },
+                            );
                     },
                   );
                 } else if (state is MessagesError) {

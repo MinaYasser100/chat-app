@@ -9,8 +9,10 @@ class ReceiverMessageItem extends StatefulWidget {
   const ReceiverMessageItem({
     super.key,
     required this.messageModel,
+    this.onPressedDelete,
   });
   final MessageModel messageModel;
+  final void Function()? onPressedDelete;
 
   @override
   State<ReceiverMessageItem> createState() => _ReceiverMessageItemState();
@@ -45,7 +47,7 @@ class _ReceiverMessageItemState extends State<ReceiverMessageItem> {
           children: [
             if (isViewDeleteIcon)
               IconButton(
-                onPressed: () {},
+                onPressed: widget.onPressedDelete,
                 icon: const Icon(
                   Icons.delete_rounded,
                   color: Colors.red,

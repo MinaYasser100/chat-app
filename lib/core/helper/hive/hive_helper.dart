@@ -30,6 +30,18 @@ class HiveHelper {
     return box.values.toList();
   }
 
+  static Future<void> removeMessageById(String id) async {
+    var box = Hive.box<MessageModel>(Titles.messagesModelHiveBox);
+    final messageKey = box.keys.firstWhere(
+      (key) => box.get(key)?.id == id,
+      orElse: () => null,
+    );
+
+    if (messageKey != null) {
+      await box.delete(messageKey);
+    }
+  }
+
   // Clear all messages from the Hive box
   static Future<void> clearMessages() async {
     var box = Hive.box<MessageModel>(Titles.messagesModelHiveBox);

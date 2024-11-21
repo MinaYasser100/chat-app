@@ -73,4 +73,27 @@ class MessagesCubit extends Cubit<MessagesState> {
       },
     );
   }
+
+  Future<void> deleteMessage(MessageModel message) async {
+    try {
+      // Remove the message from Firestore
+      final querySnapshot = await _firestore
+          .collection(Titles.messages)
+          .where('id', isEqualTo: message.id)
+          .get();
+
+      for (var doc in querySnapshot.docs) {
+        await doc.reference.delete();
+      }
+
+      // Remove the message from Hive
+      await HiveHelper.removeMessageById(message.id);
+
+      // Emit the updated messages list from Hive
+      final messages = HiveHelper.getMessages();
+      emit(MessagesLoaded(messages));
+    } catch (e) {
+      emit(MessagesError('فشل حذف الرسالة'));
+    }
+  }
 }

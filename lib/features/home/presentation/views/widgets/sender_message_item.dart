@@ -10,8 +10,10 @@ class SenderMessageItem extends StatefulWidget {
   const SenderMessageItem({
     super.key,
     required this.messageModel,
+    required this.onPressedDelete,
   });
   final MessageModel messageModel;
+  final void Function()? onPressedDelete;
 
   @override
   State<SenderMessageItem> createState() => _SenderMessageItemState();
@@ -107,7 +109,7 @@ class _SenderMessageItemState extends State<SenderMessageItem> {
             ),
             if (isViewDeleteIcon)
               IconButton(
-                onPressed: () {},
+                onPressed: widget.onPressedDelete,
                 icon: const Icon(
                   Icons.delete_rounded,
                   color: Colors.red,
