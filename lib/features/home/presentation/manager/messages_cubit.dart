@@ -89,8 +89,23 @@ class MessagesCubit extends Cubit<MessagesState> {
       // Remove the message from Hive
       await HiveHelper.removeMessageById(message.id);
 
-      // Emit the updated messages list from Hive
-      final messages = HiveHelper.getMessages();
+      // Synchronize with Firestore immediately
+      final snapshot = await _firestore
+          .collection(Titles.messages)
+          .orderBy('timestamp')
+          .get();
+
+      List<MessageModel> messages = snapshot.docs.map((doc) {
+        return MessageModel.fromJson(doc.data());
+      }).toList();
+
+      // Clear and update Hive with the latest messages
+      HiveHelper.clearMessages();
+      for (var message in messages) {
+        HiveHelper.saveMessage(message);
+      }
+
+      // Emit the updated messages list
       emit(MessagesLoaded(messages));
     } catch (e) {
       emit(MessagesError('فشل حذف الرسالة'));

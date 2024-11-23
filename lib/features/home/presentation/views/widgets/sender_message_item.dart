@@ -32,14 +32,16 @@ class _SenderMessageItemState extends State<SenderMessageItem> {
     return GestureDetector(
       onLongPress: () async {
         isViewDeleteIcon = true;
-        setState(() {});
-        await Future.delayed(
-          const Duration(
-            seconds: 5,
-          ),
-        );
-        isViewDeleteIcon = false;
-        setState(() {});
+        if (mounted) {
+          setState(() {});
+        }
+
+        await Future.delayed(const Duration(seconds: 5));
+
+        if (mounted) {
+          isViewDeleteIcon = false;
+          setState(() {});
+        }
       },
       child: Align(
         alignment: Alignment.centerRight,
