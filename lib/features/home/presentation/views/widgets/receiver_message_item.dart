@@ -1,4 +1,5 @@
 import 'package:chat_app/core/constant/styles/styles.dart';
+import 'package:chat_app/core/helper/hive/hive_helper.dart';
 import 'package:chat_app/core/helper/pages/get_pages.dart';
 import 'package:chat_app/core/model/message_model.dart';
 import 'package:flutter/material.dart';
@@ -20,25 +21,33 @@ class ReceiverMessageItem extends StatefulWidget {
 
 class _ReceiverMessageItemState extends State<ReceiverMessageItem> {
   late bool isViewDeleteIcon;
+  late String? userEmail;
+
   @override
   void initState() {
     isViewDeleteIcon = false;
+    userEmail = HiveHelper.getUserData().email;
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
+    String senderEmail = widget.messageModel.sender.email;
     return GestureDetector(
       onLongPress: () async {
-        isViewDeleteIcon = true;
-        setState(() {});
+        if (mounted && senderEmail == userEmail) {
+          isViewDeleteIcon = true;
+          setState(() {});
+        }
         await Future.delayed(
           const Duration(
             seconds: 5,
           ),
         );
-        isViewDeleteIcon = false;
-        setState(() {});
+        if (mounted) {
+          isViewDeleteIcon = false;
+          setState(() {});
+        }
       },
       child: Align(
         alignment: Alignment.centerLeft,
