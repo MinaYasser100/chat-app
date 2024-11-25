@@ -3,7 +3,7 @@ import 'package:chat_app/core/helper/hive/hive_helper.dart';
 import 'package:chat_app/core/helper/model/text_field_model.dart';
 import 'package:chat_app/core/helper/notification/notification_helper.dart';
 import 'package:chat_app/core/model/user_model.dart';
-import 'package:chat_app/features/home/presentation/manager/messages_cubit.dart';
+import 'package:chat_app/features/home/presentation/manager/messages_cubit/messages_cubit.dart';
 import 'package:chat_app/features/home/presentation/views/widgets/receiver_message_item.dart';
 import 'package:chat_app/features/home/presentation/views/widgets/sender_message_item.dart';
 import 'package:flutter/material.dart';

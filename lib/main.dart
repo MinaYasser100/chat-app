@@ -1,8 +1,10 @@
 import 'package:chat_app/core/constant/color/app_colors.dart';
 import 'package:chat_app/core/helper/hive/hive_helper.dart';
 import 'package:chat_app/core/helper/pages/get_pages.dart';
+import 'package:chat_app/features/home/presentation/manager/swipe_home_cubit/swipe_home_cubit.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -34,17 +36,20 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GetMaterialApp(
-      locale: const Locale('ar'),
-      theme: ThemeData(
-        scaffoldBackgroundColor: Colors.white,
-        colorScheme: ColorScheme.fromSeed(seedColor: AppColors.primaryColor),
-        useMaterial3: true,
+    return BlocProvider(
+      create: (context) => SwipeHomeCubit(),
+      child: GetMaterialApp(
+        locale: const Locale('ar'),
+        theme: ThemeData(
+          scaffoldBackgroundColor: Colors.white,
+          colorScheme: ColorScheme.fromSeed(seedColor: AppColors.primaryColor),
+          useMaterial3: true,
+        ),
+        debugShowCheckedModeBanner: false,
+        initialRoute: GetPages.kSplashView,
+        getPages: GetPages.getPages,
+        builder: EasyLoading.init(),
       ),
-      debugShowCheckedModeBanner: false,
-      initialRoute: GetPages.kSplashView,
-      getPages: GetPages.getPages,
-      builder: EasyLoading.init(),
     );
   }
 }
