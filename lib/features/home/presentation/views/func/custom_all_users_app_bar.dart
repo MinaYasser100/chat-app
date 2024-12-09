@@ -11,7 +11,7 @@ import 'package:hive_flutter/hive_flutter.dart';
 AppBar customAllUsersAppBar() {
   return AppBar(
     title: const Text(
-      'الأصدقاء',
+      'أصدقائك',
       style: Styles.textStyle26White,
     ),
     backgroundColor: AppColors.primaryColor,
